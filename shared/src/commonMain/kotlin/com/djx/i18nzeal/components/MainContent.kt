@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.djx.i18nzeal.i18n.AppLangState
+import com.djx.i18nzeal.i18n.I18nKeys
 import com.djx.i18nzeal.i18n.Lang
 import com.djx.i18nzeal.i18n.tr
 
@@ -31,7 +32,7 @@ fun MainContent(modifier: Modifier = Modifier) {
         }
     ) { paddingValues ->
         Column(modifier.padding(paddingValues)) {
-            Text(tr("count",count))
+            Text(tr(I18nKeys.count,count))
             TextButton({
                 count+=1
             }){

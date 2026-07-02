@@ -10,8 +10,8 @@ enum class Lang(val code: String) {
 object I18nZeal {
 
     private val langMap = mapOf(
-        Lang.Zh to zhLang.map,
-        Lang.En to enLang.map,
+        Lang.Zh to ZhLang.map,
+        Lang.En to EnLang.map,
     )
 
     fun get(

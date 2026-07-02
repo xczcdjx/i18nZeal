@@ -1,6 +1,6 @@
 package com.djx.i18nzeal.i18n
 
-object enLang {
+object EnLang {
     val map=mapOf(
         "name" to "i18nZeal",
         "home" to "Home",

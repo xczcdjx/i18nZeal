@@ -1,6 +1,6 @@
 package com.djx.i18nzeal.i18n
 
-object zhLang{
+object ZhLang{
     val map=mapOf(
         "name" to "热情国际化",
         "home" to "首页",

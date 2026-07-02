@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -47,6 +48,11 @@ kotlin {
     }
     
     sourceSets {
+        commonMain{
+            kotlin.srcDir(
+                layout.buildDirectory.dir("generated/i18nzeal/commonMain/kotlin")
+            )
+        }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
         }
@@ -71,4 +77,24 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+}
+
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+    .configureEach {
+        dependsOn(generateI18nKeys)
+    }
+val generateI18nKeys by tasks.registering(GenerateI18nKeysTask::class) {
+    inputFile.set(
+        layout.projectDirectory.file(
+            "src/commonMain/kotlin/com/djx/i18nzeal/i18n/zh.kt"
+        )
+    )
+
+    outputDir.set(
+        layout.buildDirectory.dir("generated/i18nzeal/commonMain/kotlin")
+    )
+
+    packageName.set("com.djx.i18nzeal.i18n")
+    className.set("I18nKeys")
 }
