@@ -9,11 +9,14 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
+import org.yaml.snakeyaml.Yaml
+import java.io.File
 import java.util.Locale
 
 abstract class JsonToI18nKtTask : DefaultTask() {
+
     @get:Input
-    abstract val sourceCodeLocales: ListProperty<String>
+    abstract val sourceLocales: ListProperty<String>
 
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
@@ -28,6 +31,9 @@ abstract class JsonToI18nKtTask : DefaultTask() {
     @get:Input
     abstract val objectName: Property<String>
 
+    @get:Input
+    abstract val fileType: Property<String>
+
     @TaskAction
     fun run() {
         val input = inputDir.get().asFile
@@ -36,35 +42,48 @@ abstract class JsonToI18nKtTask : DefaultTask() {
         output.deleteRecursively()
         output.mkdirs()
 
-        val jsonFiles = input
-            .listFiles { file ->
-                file.isFile && file.extension.lowercase() == "json"
-            }
+        val type = fileType.get().lowercase()?: "json"
+        // validate
+        val supported = setOf("json", "yaml", "yml", "kt", "properties")
+
+        require(type in supported) {
+            """
+Unsupported fileType: $type
+
+Supported types:
+${supported.joinToString(", ")}
+""".trimIndent()
+        }
+
+        val files = input
+            .listFiles()
+            ?.asSequence()
+            ?.filter { it.isFile }
+            ?.filter { it.extension.equals(type, ignoreCase = true) }
             ?.sortedBy { it.nameWithoutExtension }
+            ?.toList()
             .orEmpty()
 
-        if (jsonFiles.isEmpty()) {
+        if (files.isEmpty()) {
             logger.warn("No json files found in: ${input.absolutePath}")
             return
         }
 
-        val translations = jsonFiles.associate { jsonFile ->
-            val locale = jsonFile.nameWithoutExtension
-            val json = JsonSlurper().parse(jsonFile) as Map<*, *>
-            locale to flattenJson(json)
+        val translations = files.associate { file ->
+            val locale = file.nameWithoutExtension
+            val raw = parseFile(file)
+            locale to flattenJson(raw)
         }
 
-        val baseLocale = when {
-            translations.containsKey("en") -> "en"
-            translations.containsKey("zh") -> "zh"
-            else -> translations.keys.first()
-        }
+        val baseLocale = sourceLocales.get()
+            .firstOrNull { translations.containsKey(it) }
+            ?: translations.keys.first()
 
         val keys = translations[baseLocale]
             ?.keys
             ?.distinct()
             ?.sorted()
-            .orEmpty()
+            ?: emptyList()
 
         val pkg = packageName.get()
         val obj = objectName.get()
@@ -80,6 +99,55 @@ abstract class JsonToI18nKtTask : DefaultTask() {
 
         outputFile.parentFile.mkdirs()
         outputFile.writeText(content, Charsets.UTF_8)
+    }
+
+    private fun parseFile(file: File): Map<String, Any> {
+        return when (file.extension.lowercase()) {
+
+            "json" -> parseJson(file)
+
+            "yml", "yaml" -> parseYaml(file)
+
+            "properties" -> parseProperties(file)
+
+            "kt" -> parseKt(file)
+
+            else -> error("Unsupported file type: ${file.extension}")
+        }
+    }
+
+    private fun parseJson(file: File): Map<String, Any> {
+        return JsonSlurper().parse(file) as Map<String, Any>
+    }
+
+    private fun parseYaml(file: File): Map<String, Any> {
+        val yaml = Yaml()
+        return yaml.load(file.inputStream()) as Map<String, Any>
+    }
+
+    private fun parseProperties(file: File): Map<String, Any> {
+        val props = java.util.Properties()
+        file.inputStream().use { props.load(it) }
+
+        return props.entries.associate {
+            it.key.toString() to it.value.toString()
+        }
+    }
+
+    private fun parseKt(file: File): Map<String, Any> {
+        val text = file.readText()
+
+        val mapBlockRegex =
+            Regex("map\\s*=\\s*mapOf\\s*\\((.*?)\\)", RegexOption.DOT_MATCHES_ALL)
+
+        val block = mapBlockRegex.find(text)?.groupValues?.get(1)
+            ?: return emptyMap()
+
+        val entryRegex =
+            Regex("\"([^\"]+)\"\\s*to\\s*\"([^\"]*)\"")
+
+        return entryRegex.findAll(block)
+            .associate { it.groupValues[1] to it.groupValues[2] }
     }
 
     private fun flattenJson(
@@ -195,7 +263,8 @@ abstract class JsonToI18nKtTask : DefaultTask() {
     ) {
         val providerName = providerObjectName(objectName, locale)
 
-        appendLine("private object $providerName {")
+        // hide private
+        appendLine("object $providerName {")
         appendLine("    val map = mapOf(")
 
         keys.forEach { key ->

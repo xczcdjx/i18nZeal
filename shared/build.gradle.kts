@@ -104,6 +104,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
 }*/
 
 val generateI18nKt by tasks.registering(JsonToI18nKtTask::class) {
+    sourceLocales.set(listOf("en", "zh"))
     inputDir.set(
         layout.projectDirectory.dir("src/commonMain/i18n")
     )
@@ -114,4 +115,5 @@ val generateI18nKt by tasks.registering(JsonToI18nKtTask::class) {
 
     packageName.set("com.djx.i18nzeal.i18n")
     objectName.set("I18nZeal")
+    fileType.set("json")
 }
