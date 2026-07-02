@@ -14,9 +14,9 @@ object I18nRuntime {
 
     fun get(
         key: String?,
-        vararg args: Any? = emptyArray(),
+        locale: Locale = systemLocale(),
         fallback: String = key.orEmpty(),
-        locale: Locale = systemLocale()
+        vararg args: Any? = emptyArray()
     ): String {
         return engine.get(
             key,

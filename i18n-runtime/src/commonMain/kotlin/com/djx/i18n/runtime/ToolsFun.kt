@@ -5,15 +5,9 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun tr(key: String?, vararg args: Any?): String {
+    if (key.isNullOrBlank()) return ""
 
     val lang = AppLocalLangProvider.current
 
-    if (key.isNullOrBlank()) return ""
-
-    return I18nRuntime.get(
-        key = key,
-        *args,
-        locale = lang,
-        fallback = key
-    )
+    return I18nRuntime.get(key, lang, key, *args)
 }

@@ -14,14 +14,14 @@ import com.djx.i18nzeal.constants.I18nZeal
 @Preview
 fun App() {
     MaterialTheme {
-  /*      I18nRuntime.init { key, locale, fallback, args ->
+        I18nRuntime.init { key, locale, fallback, args ->
             I18nZeal.get(
                 key = key,
                 locale = locale,
+                fallback = fallback,
                 args = args,
-                fallback = fallback
             )
-        }*/
+        }
         CompositionLocalProvider(
             AppLocalLangProvider provides AppLangState.current.value
         ) {
