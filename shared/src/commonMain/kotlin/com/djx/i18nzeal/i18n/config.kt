@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 
+/*
 object AppLangState {
     val current = mutableStateOf(Lang.Zh)
 
@@ -26,4 +27,4 @@ fun tr(key: String?, vararg args: Any?): String {
         *args,
         fallback = key.orEmpty()
     )
-}
+}*/

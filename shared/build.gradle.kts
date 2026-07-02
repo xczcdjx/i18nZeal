@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("i18nZeal")
+//    id("i18nZeal")
 }
 
 kotlin {
@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(project(":i18n-runtime"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -78,8 +79,9 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
-
+// 
+/*
 i18nZeal {
     sourceLocales=listOf("en","zh")
     packageName="com.djx.i18nzeal.i18n"
-}
+}*/

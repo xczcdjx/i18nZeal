@@ -1,12 +1,13 @@
 package com.djx.i18n.runtime
 
 import androidx.compose.runtime.mutableStateOf
-import com.djx.i18nzeal.i18n.Lang
+import com.djx.i18n.runtime.export.Locale
+import com.djx.i18n.runtime.export.systemLocale
 
 object AppLangState {
-    val current = mutableStateOf<Lang?>(null)
+    val current = mutableStateOf<Locale>(systemLocale())
 
-    fun change(lang: Lang) {
+    fun change(lang: Locale) {
         current.value = lang
     }
 }

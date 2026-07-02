@@ -14,10 +14,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.djx.i18nzeal.i18n.I18nKeys
-import com.djx.i18nzeal.i18n.Lang
-import com.djx.i18nzeal.i18n.AppLangState
-import com.djx.i18nzeal.i18n.tr
+import com.djx.i18n.runtime.AppLangState
+import com.djx.i18n.runtime.tr
+import com.djx.i18nzeal.constants.En
+import com.djx.i18nzeal.constants.I18nKeys
+import com.djx.i18nzeal.constants.Zh
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier) {
@@ -42,7 +43,7 @@ fun MainContent(modifier: Modifier = Modifier) {
             Row {
                 Button(
                     onClick = {
-                        AppLangState.change(Lang.En)
+                        AppLangState.change(En)
                     }
                 ) {
                     Text("English")
@@ -50,7 +51,7 @@ fun MainContent(modifier: Modifier = Modifier) {
 
                 Button(
                     onClick = {
-                        AppLangState.change(Lang.Zh)
+                        AppLangState.change(Zh)
                     }
                 ) {
                     Text("中文")

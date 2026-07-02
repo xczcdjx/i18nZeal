@@ -1,7 +1,7 @@
 package com.djx.i18n.runtime
 
+
 import androidx.compose.runtime.Composable
-import com.djx.i18nzeal.i18n.I18nZeal
 
 @Composable
 fun tr(key: String?, vararg args: Any?): String {
@@ -10,10 +10,10 @@ fun tr(key: String?, vararg args: Any?): String {
 
     if (key.isNullOrBlank()) return ""
 
-    return I18nZeal.get(
+    return I18nRuntime.get(
         key = key,
-        lang = lang,
-        args = args,
+        *args,
+        locale = lang,
         fallback = key
     )
 }
