@@ -1,3 +1,4 @@
+import com.djx.i18nzeal.I18nFileType
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -84,6 +85,8 @@ dependencies {
 i18nZeal {
     sourceLocales=listOf("en","zh")
     packageName="com.djx.i18nzeal.i18n"
+    inputDir="src/commonMain/i18n-properties"
+    fileType= I18nFileType.PROPERTIES
 }
 
 tasks.withType<KotlinCompilationTask<*>>().configureEach {

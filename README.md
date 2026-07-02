@@ -1,35 +1,177 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+# i18nZeal
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+i18nZeal is a Kotlin Multiplatform i18n helper for Compose Multiplatform apps.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+It has two parts:
 
-### Running the apps
+- `i18n-runtime`: small runtime APIs for `Locale`, language state, CompositionLocal access, and translation lookup.
+- `i18n-gradle-plugin`: a Gradle plugin that generates Kotlin constants and an `I18nEngine` implementation from locale files.
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+## Modules
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- Web app:
-  - Wasm target (faster, modern browsers): `./gradlew :webApp:wasmJsBrowserDevelopmentRun`
-  - JS target (slower, supports older browsers): `./gradlew :webApp:jsBrowserDevelopmentRun`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+- `i18n-runtime`: publishable KMP runtime library.
+- `i18n-gradle-plugin`: publishable Gradle plugin.
+- `shared`: sample Compose Multiplatform shared UI using the plugin and runtime.
+- `androidApp`, `desktopApp`, `webApp`, `iosApp`: sample app targets.
 
----
+## Input Files
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+Put locale files in the configured input directory, for example:
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+```text
+shared/src/commonMain/i18n/en.json
+shared/src/commonMain/i18n/zh.json
+```
+
+Example JSON:
+
+```json
+{
+  "app": {
+    "name": "i18nZeal"
+  },
+  "lang": {
+    "current": "Current Language",
+    "system": "System",
+    "en": "English",
+    "zh": "Chinese"
+  },
+  "count": "Count,{0}"
+}
+```
+
+Nested keys are flattened with dots, so `app.name` becomes `I18nKeys.app_name`.
+
+## Gradle Setup
+
+When developing this repository, the plugin is loaded from the included build:
+
+```kotlin
+pluginManagement {
+    includeBuild("i18n-gradle-plugin")
+}
+```
+
+Then apply it in the app/shared module:
+
+```kotlin
+plugins {
+    id("com.djx.i18nzeal")
+}
+
+i18nZeal {
+    sourceLocales = listOf("en", "zh")
+    packageName = "com.example.app.i18n"
+}
+```
+
+Add the generated source directory:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain {
+            kotlin.srcDir(layout.buildDirectory.dir("generated/i18nzeal/commonMain/kotlin"))
+        }
+    }
+}
+```
+
+Make compilation depend on generation:
+
+```kotlin
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+    dependsOn(tasks.named("generateI18nKt"))
+}
+```
+
+For a published plugin, use:
+
+```kotlin
+plugins {
+    id("com.djx.i18nzeal") version "0.1.0-SNAPSHOT"
+}
+```
+
+Runtime dependency:
+
+```kotlin
+commonMain.dependencies {
+    implementation("com.djx.i18nzeal:i18n-runtime:0.1.0-SNAPSHOT")
+}
+```
+
+## Generated Code
+
+The plugin generates a Kotlin file like this:
+
+```kotlin
+package com.example.app.i18n
+
+import com.djx.i18n.runtime.export.Locale
+import com.djx.i18n.runtime.interfaces.I18nEngine
+
+val Lang_En = Locale("en")
+val Lang_Zh = Locale("zh")
+
+object I18nKeys {
+    const val app_name = "app.name"
+    const val count = "count"
+}
+
+object I18nZeal : I18nEngine {
+    override fun get(
+        key: String?,
+        locale: Locale,
+        fallback: String,
+        vararg args: Any?,
+    ): String {
+        // generated lookup and placeholder formatting
+        TODO()
+    }
+}
+```
+
+Placeholders use zero-based indexes:
+
+```json
+{
+  "count": "Count,{0}"
+}
+```
+
+```kotlin
+tr(I18nKeys.count, count)
+```
+
+## Runtime Usage
+
+Initialize the runtime with the generated engine:
+
+```kotlin
+I18nRuntime.init(I18nZeal)
+```
+
+Provide the current language in Compose:
+
+```kotlin
+CompositionLocalProvider(
+    AppLocalLangProvider provides AppLangState.current.value
+) {
+    MainContent()
+}
+```
+
+Translate inside composables:
+
+```kotlin
+Text(tr(I18nKeys.app_name))
+Text(tr(I18nKeys.count, count))
+```
+
+Change language:
+
+```kotlin
+AppLangState.change(Lang_En)
+AppLangState.change(Lang_Zh)
+```

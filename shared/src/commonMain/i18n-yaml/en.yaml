@@ -1,0 +1,3 @@
+app:
+  name: i18nZeal
+count: "Count,{0}"
