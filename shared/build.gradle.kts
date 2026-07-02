@@ -79,7 +79,7 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
-// 
+
 /*
 i18nZeal {
     sourceLocales=listOf("en","zh")
