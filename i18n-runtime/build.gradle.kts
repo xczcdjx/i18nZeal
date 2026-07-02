@@ -3,7 +3,11 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.composeCompiler)
+    `maven-publish`
 }
+
+group = providers.gradleProperty("GROUP").get()
+version = providers.gradleProperty("VERSION_NAME").get()
 
 kotlin {
 
@@ -114,4 +118,3 @@ kotlin {
     }
 
 }
-

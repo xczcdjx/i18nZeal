@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,7 +7,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("i18nZeal")
+    id("com.djx.i18nzeal")
 }
 
 kotlin {
@@ -83,4 +84,8 @@ dependencies {
 i18nZeal {
     sourceLocales=listOf("en","zh")
     packageName="com.djx.i18nzeal.i18n"
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+    dependsOn(tasks.named("generateI18nKt"))
 }

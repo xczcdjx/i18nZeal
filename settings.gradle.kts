@@ -2,6 +2,8 @@ rootProject.name = "I18nZeal"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("i18n-gradle-plugin")
+
     repositories {
         google {
             mavenContent {

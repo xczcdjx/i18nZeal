@@ -1,3 +1,5 @@
+package com.djx.i18nzeal
+
 import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
