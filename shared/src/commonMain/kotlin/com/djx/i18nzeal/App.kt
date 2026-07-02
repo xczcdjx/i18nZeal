@@ -1,12 +1,11 @@
 package com.djx.i18nzeal
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.djx.i18nzeal.components.MainContent
-import com.djx.i18nzeal.i18nJson.AppLangState
-import com.djx.i18nzeal.i18nJson.AppLocalLangProvider
+import com.djx.i18nzeal.i18n.AppLangState
+import com.djx.i18nzeal.i18n.AppLocalLangProvider
 
 
 @Composable

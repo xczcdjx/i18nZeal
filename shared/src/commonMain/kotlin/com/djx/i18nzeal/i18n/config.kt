@@ -1,10 +1,8 @@
-package com.djx.i18nzeal.i18nJson
+package com.djx.i18nzeal.i18n
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
-import com.djx.i18nzeal.i18n.I18nZeal
-import com.djx.i18nzeal.i18n.Lang
 
 object AppLangState {
     val current = mutableStateOf(Lang.Zh)

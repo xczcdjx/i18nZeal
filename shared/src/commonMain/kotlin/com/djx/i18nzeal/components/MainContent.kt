@@ -16,8 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.djx.i18nzeal.i18n.I18nKeys
 import com.djx.i18nzeal.i18n.Lang
-import com.djx.i18nzeal.i18nJson.AppLangState
-import com.djx.i18nzeal.i18nJson.tr
+import com.djx.i18nzeal.i18n.AppLangState
+import com.djx.i18nzeal.i18n.tr
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier) {
