@@ -10,4 +10,5 @@ repositories {
 
 dependencies {
     implementation(localGroovy())
+    implementation("org.yaml:snakeyaml:2.2")
 }

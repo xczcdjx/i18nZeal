@@ -32,6 +32,7 @@ fun MainContent(modifier: Modifier = Modifier) {
         }
     ) { paddingValues ->
         Column(modifier.padding(paddingValues)) {
+            Text("1111")
             Text(tr(I18nKeys.count,count))
             TextButton({
                 count+=1

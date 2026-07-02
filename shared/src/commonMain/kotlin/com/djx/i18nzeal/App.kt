@@ -1,6 +1,7 @@
 package com.djx.i18nzeal
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.djx.i18nzeal.components.MainContent
