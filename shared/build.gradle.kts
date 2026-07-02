@@ -19,36 +19,36 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm()
-    
+
     js {
         browser()
     }
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
     }
-    
+
     androidLibrary {
-       namespace = "com.djx.i18nzeal.shared"
-       compileSdk = libs.versions.android.compileSdk.get().toInt()
-       minSdk = libs.versions.android.minSdk.get().toInt()
-    
-       compilerOptions {
-           jvmTarget = JvmTarget.JVM_11
-       }
-       androidResources {
-           enable = true
-       }
-       withHostTest {
-           isIncludeAndroidResources = true
-       }
+        namespace = "com.djx.i18nzeal.shared"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
     }
-    
+
     sourceSets {
-        commonMain{
+        commonMain {
             kotlin.srcDir(
                 layout.buildDirectory.dir("generated/i18nzeal/commonMain/kotlin")
             )
@@ -80,11 +80,15 @@ dependencies {
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+/*tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
     .configureEach {
         dependsOn(generateI18nKeys)
+    }*/
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+    .configureEach {
+        dependsOn(generateI18nKt)
     }
-val generateI18nKeys by tasks.registering(GenerateI18nKeysTask::class) {
+/*val generateI18nKeys by tasks.registering(GenerateI18nKeysTask::class) {
     inputFile.set(
         layout.projectDirectory.file(
             "src/commonMain/kotlin/com/djx/i18nzeal/i18n/zh.kt"
@@ -97,4 +101,17 @@ val generateI18nKeys by tasks.registering(GenerateI18nKeysTask::class) {
 
     packageName.set("com.djx.i18nzeal.i18n")
     className.set("I18nKeys")
+}*/
+
+val generateI18nKt by tasks.registering(JsonToI18nKtTask::class) {
+    inputDir.set(
+        layout.projectDirectory.dir("src/commonMain/i18n")
+    )
+
+    outputDir.set(
+        layout.buildDirectory.dir("generated/i18nzeal/commonMain/kotlin")
+    )
+
+    packageName.set("com.djx.i18nzeal.i18n")
+    objectName.set("I18nZeal")
 }

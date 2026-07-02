@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "i18nZeal"
+  },
+  "lang": {
+    "current": "Current Lanauge",
+    "system": "System",
+    "en": "English",
+    "zh": "Chinese"
+  },
+ "count": "Count,{0}"
+}
