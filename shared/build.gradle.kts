@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-//    id("i18nZeal")
+    id("i18nZeal")
 }
 
 kotlin {
@@ -80,8 +80,7 @@ dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
 //
-/*
 i18nZeal {
     sourceLocales=listOf("en","zh")
     packageName="com.djx.i18nzeal.i18n"
-}*/
+}

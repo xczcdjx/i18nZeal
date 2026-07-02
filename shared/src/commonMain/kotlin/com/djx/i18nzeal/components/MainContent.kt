@@ -16,9 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.djx.i18n.runtime.AppLangState
 import com.djx.i18n.runtime.tr
-import com.djx.i18nzeal.constants.En
-import com.djx.i18nzeal.constants.I18nKeys
-import com.djx.i18nzeal.constants.Zh
+import com.djx.i18nzeal.i18n.I18nKeys
+import com.djx.i18nzeal.i18n.Lang_En
+import com.djx.i18nzeal.i18n.Lang_Zh
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier) {
@@ -43,7 +43,7 @@ fun MainContent(modifier: Modifier = Modifier) {
             Row {
                 Button(
                     onClick = {
-                        AppLangState.change(En)
+                        AppLangState.change(Lang_En)
                     }
                 ) {
                     Text("English")
@@ -51,7 +51,7 @@ fun MainContent(modifier: Modifier = Modifier) {
 
                 Button(
                     onClick = {
-                        AppLangState.change(Zh)
+                        AppLangState.change(Lang_Zh)
                     }
                 ) {
                     Text("中文")
