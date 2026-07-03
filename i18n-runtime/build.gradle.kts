@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.composeCompiler)
-    `maven-publish`
+    alias(libs.plugins.vanniktech.maven.publish)
 }
 
 group = providers.gradleProperty("GROUP").get()
@@ -117,4 +117,38 @@ kotlin {
         }
     }
 
+}
+
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+
+    pom {
+        name.set("i18n-runtime")
+        description.set("Runtime library for i18nZeal Kotlin Multiplatform i18n.")
+        inceptionYear.set("2026")
+        url.set("https://github.com/xczcdjx/i18nZeal")
+
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("xczcdjx")
+                name.set("Lzq")
+                email.set("xczcdjx@126.com")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/xczcdjx/i18nZeal")
+            connection.set("scm:git:git://github.com/xczcdjx/i18nZeal.git")
+            developerConnection.set("scm:git:ssh://git@github.com/xczcdjx/i18nZeal.git")
+        }
+    }
 }
