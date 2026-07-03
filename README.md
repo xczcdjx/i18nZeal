@@ -34,6 +34,15 @@ i18nZeal {
 }
 ```
 
+Default extension values:
+
+- `fileType = I18nFileType.JSON`
+- `sourceLocales = emptyList()` (must be configured)
+- `inputDir = "src/commonMain/i18n"`
+- `outputDir = "generated/i18nzeal/commonMain/kotlin"`
+- `packageName = null` (must be configured)
+- `objectName = "I18nZeal"`
+
 ### 2. Add the generated source directory to `commonMain`
 
 ```kotlin

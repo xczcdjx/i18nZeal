@@ -32,6 +32,16 @@ i18nZeal {
     // fileType = I18nFileType.JSON 默认json
 }
 ```
+
+扩展配置默认值：
+
+- `fileType = I18nFileType.JSON`
+- `sourceLocales = emptyList()`（需要显式配置）
+- `inputDir = "src/commonMain/i18n"`
+- `outputDir = "generated/i18nzeal/commonMain/kotlin"`
+- `packageName = null`（需要显式配置）
+- `objectName = "I18nZeal"`
+
 ### 2.把生成目录加入 `commonMain`：
 
 ```kotlin
