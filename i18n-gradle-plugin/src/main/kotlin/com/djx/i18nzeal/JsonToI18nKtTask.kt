@@ -129,7 +129,7 @@ ${supported.joinToString(", ")}
 
     private fun parseProperties(file: File): Map<String, Any> {
         val props = java.util.Properties()
-        file.inputStream().use { props.load(it) }
+        file.reader(Charsets.UTF_8).use { props.load(it) }
 
         return props.entries.associate {
             it.key.toString() to it.value.toString()
