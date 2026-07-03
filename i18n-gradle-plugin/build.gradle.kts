@@ -8,7 +8,7 @@ group = providers.gradleProperty("GROUP")
     .orElse("com.djx.i18nzeal")
     .get()
 version = providers.gradleProperty("VERSION_NAME")
-    .orElse("0.1.0-SNAPSHOT")
+    .orElse("0.1.0")
     .get()
 
 repositories {

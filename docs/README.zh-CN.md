@@ -1,26 +1,25 @@
-# i18nZeal
+# i18nZeal 中文文档
 
-English README. Chinese documentation is available at [docs/README.zh-CN.md](docs/README.zh-CN.md).
+`i18nZeal` 是一个面向 Compose Multiplatform 的 Kotlin Multiplatform 国际化工具。
 
-`i18nZeal` is a Kotlin Multiplatform i18n helper for Compose Multiplatform apps.
+它主要由两部分组成：
 
-It has two main parts:
+- `i18n-runtime`：提供 `Locale`、当前语言状态、`CompositionLocal` 和翻译查询能力。
+- `i18n-gradle-plugin`：根据多语言文件生成 Kotlin 常量和 `I18nEngine` 实现。
 
-- `i18n-runtime`: runtime APIs for `Locale`, language state, `CompositionLocal`, and translation lookup
-- `i18n-gradle-plugin`: a Gradle plugin that generates Kotlin constants and an `I18nEngine` implementation from locale files
+## 模块说明
 
-## Modules
+- `i18n-runtime`：可发布的 KMP runtime 库。
+- `i18n-gradle-plugin`：可发布的 Gradle 插件。
+- `shared`：示例共享模块，演示插件和 runtime 的使用方式。
+- `androidApp`、`desktopApp`、`webApp`、`iosApp`：示例应用目标，包含 Web 支持。
 
-- `i18n-runtime`: publishable KMP runtime library
-- `i18n-gradle-plugin`: publishable Gradle plugin
-- `shared`: sample shared module showing plugin and runtime usage
-- `androidApp`, `desktopApp`, `webApp`, `iosApp`: sample app targets, including Web support
+## Gradle 配置使用
 
-## Gradle Setup
-
-### 1. Apply the plugin in your shared module
+### 1.在共享模块中应用插件：
 
 ```kotlin
+
 plugins {
     // ...
     id("com.djx.i18nzeal")
@@ -28,13 +27,12 @@ plugins {
 
 i18nZeal {
     sourceLocales = listOf("en", "zh")
-    packageName = "com.example.app.i18n" // generated package name
-    // inputDir = "src/commonMain/i18n" // default input directory
-    // fileType = I18nFileType.JSON // default file type
+    packageName = "com.example.app.i18n" // generated 包名,请与你的项目一致
+    // inputDir = "src/commonMain/i18n" // 默认来源目录
+    // fileType = I18nFileType.JSON 默认json
 }
 ```
-
-### 2. Add the generated source directory to `commonMain`
+### 2.把生成目录加入 `commonMain`：
 
 ```kotlin
 kotlin {
@@ -46,7 +44,7 @@ kotlin {
 }
 ```
 
-### 3. Make compilation depend on code generation
+### 3.让编译依赖生成任务：
 
 ```kotlin
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
@@ -54,7 +52,7 @@ tasks.withType<KotlinCompilationTask<*>>().configureEach {
 }
 ```
 
-If you want to switch to `.properties` input:
+如果你想切换到 `.properties`：
 
 ```kotlin
 i18nZeal {
@@ -65,14 +63,14 @@ i18nZeal {
 }
 ```
 
-Supported `fileType` values:
+支持的 `fileType`：
 
 - `I18nFileType.JSON`
 - `I18nFileType.YAML`
 - `I18nFileType.PROPERTIES`
 - `I18nFileType.KT`
 
-If you use the published plugin:
+如果使用已发布插件：
 
 ```kotlin
 plugins {
@@ -80,7 +78,7 @@ plugins {
 }
 ```
 
-Add the runtime dependency:
+添加 runtime 依赖：
 
 ```kotlin
 commonMain.dependencies {
@@ -88,7 +86,7 @@ commonMain.dependencies {
 }
 ```
 
-If your project also uses Compose resources fonts or other shared resources, keep:
+如果项目里还使用 Compose 资源字体或其他共享资源，建议同时保留：
 
 ```kotlin
 commonMain.dependencies {
@@ -96,9 +94,9 @@ commonMain.dependencies {
 }
 ```
 
-## Generated Code
+## 生成代码
 
-The plugin generates Kotlin code like this:
+插件会生成类似下面的 Kotlin 文件：
 
 ```kotlin
 package com.example.app.i18n
@@ -126,7 +124,7 @@ object I18nZeal : I18nEngine {
 }
 ```
 
-Placeholders use zero-based indexes:
+占位符使用从 `0` 开始的索引：
 
 ```json
 {
@@ -134,21 +132,21 @@ Placeholders use zero-based indexes:
 }
 ```
 
-Usage:
+调用方式：
 
 ```kotlin
 tr(I18nKeys.count, count)
 ```
 
-## Runtime Usage
+## Runtime 用法
 
-Initialize the runtime:
+初始化 runtime：
 
 ```kotlin
 I18nRuntime.init(I18nZeal)
 ```
 
-Provide the current language in Compose:
+在 Compose 中提供当前语言：
 
 ```kotlin
 CompositionLocalProvider(
@@ -158,7 +156,7 @@ CompositionLocalProvider(
 }
 ```
 
-### Translate inside composables
+### Composable 内翻译
 
 ```kotlin
 Text(tr(I18nKeys.app_name))
@@ -167,46 +165,47 @@ Text(I18nKeys.app_name.tri18n())
 Text(I18nKeys.count.tri18n(count))
 ```
 
-### Translate outside composables
+### Composable 外翻译
 
 ```kotlin
 val title = trn(I18nKeys.app_name)
 val countText = I18nKeys.count.trnI18n(count)
 ```
 
-Notes:
+说明：
 
-- `tr(...)` and `tri18n(...)` are `@Composable` helpers and read `AppLocalLangProvider.current`
-- `trn(...)` and `trnI18n(...)` are non-Compose helpers and read `AppLangState.current.value`
+- `tr(...)`、`tri18n(...)` 是 `@Composable` 方法，会读取 `AppLocalLangProvider.current`
+- `trn(...)`、`trnI18n(...)` 是非 Compose 方法，会读取 `AppLangState.current.value`
 
-### Change language
+### 切换语言
 
 ```kotlin
 AppLangState.change(Lang_En)
 AppLangState.change(Lang_Zh)
 ```
 
-## Supported Input File Formats
 
-The plugin supports:
+## 支持的输入文件格式
+
+插件支持以下多语言文件格式：
 
 - `json`
 - `yaml` / `yml`
 - `properties`
 - `kt`
 
-Use one file type per input directory and set `fileType` explicitly.
+同一个输入目录内建议只放同一种文件类型，并通过 `fileType` 明确指定。
 
-### JSON Example
+### JSON 示例
 
-Directory:
+目录：
 
 ```text
 shared/src/commonMain/i18n/en.json
 shared/src/commonMain/i18n/zh.json
 ```
 
-Content:
+内容：
 
 ```json
 {
@@ -223,16 +222,16 @@ Content:
 }
 ```
 
-### YAML Example
+### YAML 示例
 
-Directory:
+目录：
 
 ```text
 shared/src/commonMain/i18n-yaml/en.yaml
 shared/src/commonMain/i18n-yaml/zh.yaml
 ```
 
-Content:
+内容：
 
 ```yaml
 app:
@@ -245,16 +244,16 @@ lang:
 count: "Count,{0}"
 ```
 
-### Properties Example
+### Properties 示例
 
-Directory:
+目录：
 
 ```text
 shared/src/commonMain/i18n-properties/en.properties
 shared/src/commonMain/i18n-properties/zh.properties
 ```
 
-Content:
+内容：
 
 ```properties
 app.name=i18nZeal
@@ -265,20 +264,20 @@ lang.zh=Chinese
 count=Count,{0}
 ```
 
-Notes:
+说明：
 
-- `.properties` files are read as UTF-8, so you can write Chinese directly without converting to `\uXXXX`
+- `.properties` 文件现在按 UTF-8 读取，可以直接写中文，不需要转成 `\uXXXX`。
 
-### Kotlin Map Example
+### Kotlin Map 示例
 
-Directory:
+目录：
 
 ```text
 shared/src/commonMain/i18n-kt/en.kt
 shared/src/commonMain/i18n-kt/zh.kt
 ```
 
-Content:
+内容：
 
 ```kotlin
 object I18nZeal_en {
@@ -293,8 +292,8 @@ object I18nZeal_en {
 }
 ```
 
-## Key Rules
+## 键名规则
 
-Nested JSON/YAML keys are flattened to dot notation:
+嵌套 JSON/YAML 会被拍平成点分格式：
 
-- `app.name` becomes `I18nKeys.app_name`
+- `app.name` 会生成 `I18nKeys.app_name`
