@@ -1,7 +1,6 @@
 package com.djx.i18n.runtime
 
 import com.djx.i18n.runtime.export.Locale
-import com.djx.i18n.runtime.export.systemLocale
 import com.djx.i18n.runtime.interfaces.I18nEngine
 
 object I18nRuntime {
@@ -14,7 +13,7 @@ object I18nRuntime {
 
     fun get(
         key: String?,
-        locale: Locale = systemLocale(),
+        locale: Locale = AppLangState.current.value,
         fallback: String = key.orEmpty(),
         vararg args: Any? = emptyArray()
     ): String {

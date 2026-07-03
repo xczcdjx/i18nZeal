@@ -85,8 +85,8 @@ dependencies {
 i18nZeal {
     sourceLocales=listOf("en","zh")
     packageName="com.djx.i18nzeal.i18n"
-    inputDir="src/commonMain/i18n-properties"
-    fileType= I18nFileType.PROPERTIES
+    inputDir="src/commonMain/i18n"
+//    fileType= I18nFileType.PROPERTIES
 }
 
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
