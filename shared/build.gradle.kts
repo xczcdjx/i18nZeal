@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("com.djx.i18nzeal")
+    id("io.github.xczcdjx.i18nzeal")
 }
 
 kotlin {

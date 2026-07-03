@@ -23,7 +23,7 @@ It has two main parts:
 ```kotlin
 plugins {
     // ...
-    id("com.djx.i18nzeal")
+    id("io.github.xczcdjx.i18nzeal")
 }
 
 i18nZeal {
@@ -76,7 +76,7 @@ If you use the published plugin:
 
 ```kotlin
 plugins {
-    id("com.djx.i18nzeal") version "0.1.0"
+    id("io.github.xczcdjx.i18nzeal") version "0.1.0"
 }
 ```
 
@@ -84,7 +84,7 @@ Add the runtime dependency:
 
 ```kotlin
 commonMain.dependencies {
-    implementation("com.djx.i18nzeal:i18n-runtime:0.1.0")
+    implementation("io.github.xczcdjx:i18n-runtime:0.1.0")
 }
 ```
 

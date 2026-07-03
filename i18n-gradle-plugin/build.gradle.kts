@@ -5,7 +5,7 @@ plugins {
 }
 
 group = providers.gradleProperty("GROUP")
-    .orElse("com.djx.i18nzeal")
+    .orElse("io.github.xczcdjx")
     .get()
 version = providers.gradleProperty("VERSION_NAME")
     .orElse("0.1.0")
@@ -25,7 +25,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("i18nZeal") {
-            id = "com.djx.i18nzeal"
+            id = "io.github.xczcdjx.i18nzeal"
             implementationClass = "com.djx.i18nzeal.I18nZealPlugin"
             displayName = "i18nZeal Gradle Plugin"
             description = "Generates Kotlin i18n constants and engine maps from locale files."

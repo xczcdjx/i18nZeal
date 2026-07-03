@@ -2,3 +2,5 @@
 ./gradlew :i18n-runtime:publishToMavenLocal
 cd i18n-gradle-plugin
 ../gradlew publishToMavenLocal
+
+./gradlew publishAllToMavenCentral --no-configuration-cache
