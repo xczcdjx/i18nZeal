@@ -2,6 +2,7 @@ package com.djx.i18nzeal
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+
 class I18nZealPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -31,6 +32,14 @@ class I18nZealPlugin : Plugin<Project> {
             packageName.set(extension.packageName)
             objectName.set(extension.objectName)
             sourceLocales.set(extension.sourceLocales)
+        }
+
+        // KSP tasks may read generated i18n sources before Kotlin compilation tasks run,
+        // so they also need an explicit dependency on code generation.
+        project.tasks.configureEach {
+            if (name.startsWith("ksp")) {
+                dependsOn(task)
+            }
         }
     }
 }
