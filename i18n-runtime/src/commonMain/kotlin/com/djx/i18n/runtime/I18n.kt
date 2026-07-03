@@ -7,8 +7,9 @@ object I18nRuntime {
 
     lateinit var engine: I18nEngine
 
-    fun init(engine: I18nEngine) {
+    fun init(engine: I18nEngine, initialLocale: Locale? = null) {
         this.engine = engine
+        initialLocale?.let { AppLangState.change(it) }
     }
 
     fun get(
