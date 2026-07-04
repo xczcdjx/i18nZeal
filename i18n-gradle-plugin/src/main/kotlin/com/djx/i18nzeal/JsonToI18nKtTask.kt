@@ -44,7 +44,7 @@ abstract class JsonToI18nKtTask : DefaultTask() {
         output.deleteRecursively()
         output.mkdirs()
 
-        val type = fileType.get().lowercase()?: "json"
+        val type = fileType.get().lowercase()
         // validate
         val supported = setOf("json", "yaml", "yml", "kt", "properties")
 
@@ -119,12 +119,18 @@ ${supported.joinToString(", ")}
     }
 
     private fun parseJson(file: File): Map<String, Any> {
-        return JsonSlurper().parse(file) as Map<String, Any>
+        return toStringKeyMap(
+            value = JsonSlurper().parse(file),
+            sourceName = file.name
+        )
     }
 
     private fun parseYaml(file: File): Map<String, Any> {
         val yaml = Yaml()
-        return yaml.load(file.inputStream()) as Map<String, Any>
+        return toStringKeyMap(
+            value = file.inputStream().use { yaml.load<Any?>(it) },
+            sourceName = file.name
+        )
     }
 
     private fun parseProperties(file: File): Map<String, Any> {
@@ -150,6 +156,27 @@ ${supported.joinToString(", ")}
 
         return entryRegex.findAll(block)
             .associate { it.groupValues[1] to it.groupValues[2] }
+    }
+
+    private fun toStringKeyMap(
+        value: Any?,
+        sourceName: String
+    ): Map<String, Any> {
+        require(value is Map<*, *>) {
+            "Top-level content in $sourceName must be an object/map."
+        }
+
+        return value.entries.associate { (key, entryValue) ->
+            require(key != null) {
+                "Null keys are not supported in $sourceName."
+            }
+
+            key.toString() to when (entryValue) {
+                is Map<*, *> -> toStringKeyMap(entryValue, sourceName)
+                null -> ""
+                else -> entryValue
+            }
+        }
     }
 
     private fun flattenJson(
