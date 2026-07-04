@@ -194,6 +194,50 @@ AppLangState.change(Lang_En)
 AppLangState.change(Lang_Zh)
 ```
 
+### Android Debug 运行时加载
+
+默认模式下，i18nZeal 会把多语言文件生成 Kotlin 代码并编译进 App。这个模式类型安全、性能稳定，但修改语言文件后通常需要重新编译。
+
+Android 调试阶段可以使用 `AndroidDebugI18nLoader` 从运行时文件读取翻译，并 fallback 到生成的 `I18nZeal`：
+
+```kotlin
+import com.djx.i18n.runtime.I18nRuntime
+import com.djx.i18n.runtime.android.AndroidDebugI18nLoader
+import com.example.app.i18n.I18nZeal
+
+val engine = if (BuildConfig.DEBUG) {
+    AndroidDebugI18nLoader.fromFiles(
+        directory = File(filesDir, "i18n"),
+        locales = listOf("en", "zh"),
+        fallbackEngine = I18nZeal,
+    )
+} else {
+    I18nZeal
+}
+
+I18nRuntime.init(engine)
+```
+
+调试文件目录示例：
+
+```text
+/data/data/你的包名/files/i18n/en.json
+/data/data/你的包名/files/i18n/zh.json
+```
+
+也可以从 `assets` 读取：
+
+```kotlin
+AndroidDebugI18nLoader.fromAssets(
+    context = this,
+    locales = listOf("en", "zh"),
+    assetDir = "i18n",
+    fallbackEngine = I18nZeal,
+)
+```
+
+注意：`assets` 本身仍然打包在 APK 中，修改后通常还是需要重新安装或应用变更；真正适合开发期热更新的是 `fromFiles(...)`。
+
 
 ## 支持的输入文件格式
 

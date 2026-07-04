@@ -195,6 +195,50 @@ AppLangState.change(Lang_En)
 AppLangState.change(Lang_Zh)
 ```
 
+### Android debug runtime loading
+
+By default, i18nZeal generates Kotlin code from locale files and compiles it into the app. This keeps lookups type-safe and stable, but editing locale files usually requires recompilation.
+
+On Android debug builds, you can load translations from runtime files and fallback to the generated `I18nZeal` engine:
+
+```kotlin
+import com.djx.i18n.runtime.I18nRuntime
+import com.djx.i18n.runtime.android.AndroidDebugI18nLoader
+import com.example.app.i18n.I18nZeal
+
+val engine = if (BuildConfig.DEBUG) {
+    AndroidDebugI18nLoader.fromFiles(
+        directory = File(filesDir, "i18n"),
+        locales = listOf("en", "zh"),
+        fallbackEngine = I18nZeal,
+    )
+} else {
+    I18nZeal
+}
+
+I18nRuntime.init(engine)
+```
+
+Runtime files can be placed at:
+
+```text
+/data/data/your.package.name/files/i18n/en.json
+/data/data/your.package.name/files/i18n/zh.json
+```
+
+You can also load from `assets`:
+
+```kotlin
+AndroidDebugI18nLoader.fromAssets(
+    context = this,
+    locales = listOf("en", "zh"),
+    assetDir = "i18n",
+    fallbackEngine = I18nZeal,
+)
+```
+
+Note that `assets` are still packaged into the APK, so editing them usually still requires reinstalling or applying changes. Use `fromFiles(...)` when you want true development-time runtime reloads.
+
 ## Supported Input File Formats
 
 The plugin supports:
