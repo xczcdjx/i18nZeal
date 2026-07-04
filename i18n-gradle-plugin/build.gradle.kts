@@ -1,15 +1,36 @@
+import java.util.Properties
+
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
     id("com.vanniktech.maven.publish.base") version "0.37.0"
 }
 
-group = providers.gradleProperty("GROUP")
-    .orElse("io.github.xczcdjx")
-    .get()
-version = providers.gradleProperty("VERSION_NAME")
-    .orElse("0.1.0")
-    .get()
+val rootGradleProperties = Properties().apply {
+    val file = rootProject.file("../gradle.properties")
+    if (file.isFile) {
+        file.inputStream().use(::load)
+    }
+}
+
+fun publishingProperty(
+    primaryName: String,
+    fallbackName: String
+): String {
+    return providers.gradleProperty(primaryName).orNull
+        ?: providers.gradleProperty(fallbackName).orNull
+        ?: rootGradleProperties.getProperty(primaryName)
+        ?: rootGradleProperties.getProperty(fallbackName)
+}
+
+group = publishingProperty(
+    primaryName = "PLUGIN_GROUP",
+    fallbackName = "GROUP",
+)
+version = publishingProperty(
+    primaryName = "PLUGIN_VERSION_NAME",
+    fallbackName = "VERSION_NAME",
+)
 
 repositories {
     google()
@@ -41,7 +62,9 @@ mavenPublishing {
         )
     )
     publishToMavenCentral()
-    signAllPublications()
+    if (!gradle.startParameter.taskNames.any { it.contains("publishToMavenLocal", ignoreCase = true) }) {
+        signAllPublications()
+    }
 
     pom {
         name.set("i18n-gradle-plugin")

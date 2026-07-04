@@ -6,8 +6,8 @@ plugins {
     alias(libs.plugins.vanniktech.maven.publish)
 }
 
-group = providers.gradleProperty("GROUP").get()
-version = providers.gradleProperty("VERSION_NAME").get()
+group = providers.gradleProperty("RUNTIME_GROUP").get()
+version = providers.gradleProperty("RUNTIME_VERSION_NAME").get()
 
 kotlin {
 
@@ -122,7 +122,9 @@ kotlin {
 
 mavenPublishing {
     publishToMavenCentral()
-    signAllPublications()
+    if (!gradle.startParameter.taskNames.any { it.contains("publishToMavenLocal", ignoreCase = true) }) {
+        signAllPublications()
+    }
 
     pom {
         name.set("i18n-runtime")
