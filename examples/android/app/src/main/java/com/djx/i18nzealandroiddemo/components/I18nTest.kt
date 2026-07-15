@@ -31,18 +31,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.djx.composerespect.i18n.I18nKeys
 import com.djx.i18n.runtime.AppLangState
+import com.djx.i18n.runtime.WithLangProvider
 import com.djx.i18n.runtime.export.Locale
 import com.djx.i18n.runtime.export.systemLocale
 import com.djx.i18n.runtime.tr
 import com.djx.i18n.runtime.tri18n
+import com.djx.i18n.runtime.trn
 import com.djx.i18n.runtime.trnI18n
+import kotlin.collections.plusAssign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun I18nTest() {
-    var count by remember {
-        mutableIntStateOf(0)
-    }
     Scaffold(topBar = {
         TopAppBar(
             title = {
@@ -57,12 +57,7 @@ fun I18nTest() {
                 .padding(top = paddingValues.calculateTopPadding(), start = 10.dp)
                 .then(Modifier)
         ) {
-            Text(I18nKeys.count.tri18n(count))
-            TextButton({
-                count += 1
-            }) {
-                Text("Count ++")
-            }
+            CountTest()
             Spacer(Modifier.height(15.dp))
             Text(
                 I18nKeys.poem.tri18n(),
@@ -74,6 +69,25 @@ fun I18nTest() {
     }
 }
 
+@Composable
+fun CountTest(){
+    var count by remember {
+        mutableIntStateOf(0)
+    }
+    Text(I18nKeys.count.tri18n(count))
+    Text(tr(I18nKeys.count, count))
+//    Text(tr("count", count))
+    WithLangProvider {
+        Text(I18nKeys.count.trnI18n(count))
+//        Text("count".trnI18n(count))
+        Text(trn(I18nKeys.count, count))
+    }
+    TextButton({
+        count += 1
+    }) {
+        Text("Count ++")
+    }
+}
 @Composable
 private fun LangSwitch(modifier: Modifier = Modifier) {
     var lang by remember {
