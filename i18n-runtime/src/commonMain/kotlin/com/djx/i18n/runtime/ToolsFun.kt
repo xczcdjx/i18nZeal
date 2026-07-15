@@ -18,13 +18,7 @@ fun tr(key: String?, vararg args: Any?): String {
 }
 
 @Composable
-fun String?.tri18n(vararg args: Any?): String {
-    if (this.isNullOrBlank()) return ""
-
-    val lang = AppLocalLangProvider.current
-
-    return I18nRuntime.get(this, lang, this, *args)
-}
+fun String?.tri18n(vararg args: Any?): String = tr(this,args)
 
 fun trn(key: String?, vararg args: Any?): String {
 
@@ -33,8 +27,4 @@ fun trn(key: String?, vararg args: Any?): String {
     return I18nRuntime.get(key = key, fallback = key, args = args)
 }
 
-fun String?.trnI18n(vararg args: Any?): String {
-    if (this.isNullOrBlank()) return ""
-
-    return I18nRuntime.get(key = this, fallback = this, args = args)
-}
+fun String?.trnI18n(vararg args: Any?): String = trn(this,args)
