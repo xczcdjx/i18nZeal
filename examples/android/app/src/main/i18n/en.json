@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "i18nZealAndroidDemo"
+  },
+  "lang": {
+    "system": "System",
+    "en": "English",
+    "zh": "Chinese"
+  },
+  "count": "Count,{0}",
+  "poem": "Mastery comes from diligence, ruin comes from idleness; achievements come from reflection, failure comes from blindly following."
+}
