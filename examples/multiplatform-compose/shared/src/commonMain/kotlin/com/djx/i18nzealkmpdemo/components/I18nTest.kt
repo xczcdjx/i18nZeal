@@ -68,13 +68,13 @@ fun I18nTest() {
 }
 
 @Composable
-fun CountTest(){
+fun CountTest() {
     var count by remember {
         mutableIntStateOf(0)
     }
     Text(I18nKeys.count.tri18n(count))
     Text(tr(I18nKeys.count, count))
-    Text(tr(I18nKeys.hello, "count" to count, "name" to "ZhangSan"))
+    Text(tr(I18nKeys.hello, "count" to count, "name" to I18nKeys.name.trnI18n()))
     WithLangProvider {
         Text(I18nKeys.count.trnI18n(count))
         Text(trn(I18nKeys.count, count))
@@ -85,6 +85,7 @@ fun CountTest(){
         Text("Count ++")
     }
 }
+
 @Composable
 private fun LangSwitch(modifier: Modifier = Modifier) {
     var lang by remember {

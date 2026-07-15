@@ -74,7 +74,7 @@ fun CountTest(){
     }
     Text(I18nKeys.count.tri18n(count))
     Text(tr(I18nKeys.count, count))
-    Text(tr(I18nKeys.hello, "count" to count, "name" to "ZhangSan"))
+    Text(tr(I18nKeys.hello, "count" to count, "name" to I18nKeys.name.trnI18n()))
     WithLangProvider {
         Text(I18nKeys.count.trnI18n(count))
         Text(trn(I18nKeys.count, count))

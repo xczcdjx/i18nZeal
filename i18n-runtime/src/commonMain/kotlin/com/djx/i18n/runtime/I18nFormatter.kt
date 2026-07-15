@@ -55,8 +55,8 @@ fun formatI18nText(
     return result
 }
 
-private val indexedPlaceholderRegex = Regex("\\{\\d+}")
-private val namedPlaceholderRegex = Regex("\\{[A-Za-z_][A-Za-z0-9_.-]*}")
+private val indexedPlaceholderRegex = Regex("\\{\\d+\\}")
+private val namedPlaceholderRegex = Regex("\\{[A-Za-z_][A-Za-z0-9_.-]*\\}")
 
 private fun String.replacePositional(index: Int, value: Any?): String {
     return replace(
