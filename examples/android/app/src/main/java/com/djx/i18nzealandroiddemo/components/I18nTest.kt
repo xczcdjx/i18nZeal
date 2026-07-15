@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.djx.composerespect.i18n.I18nKeys
+import com.djx.i18nzealandroiddemo.i18n.I18nKeys
 import com.djx.i18n.runtime.AppLangState
 import com.djx.i18n.runtime.WithLangProvider
 import com.djx.i18n.runtime.export.Locale
@@ -38,7 +37,6 @@ import com.djx.i18n.runtime.tr
 import com.djx.i18n.runtime.tri18n
 import com.djx.i18n.runtime.trn
 import com.djx.i18n.runtime.trnI18n
-import kotlin.collections.plusAssign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

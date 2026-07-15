@@ -72,7 +72,7 @@ i18nZeal {
     sourceLocales = listOf("en", "zh")
     inputDir = "src/main/i18n"
     outputDir = "generated/i18nzeal/main/kotlin"
-    packageName = "com.djx.composerespect.i18n"
+    packageName = "com.djx.i18nzealandroiddemo.i18n"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
