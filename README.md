@@ -1,8 +1,42 @@
 # i18nZeal
 
+<p align="center">
+  <img src="docs/assets/i18nzeal-banner.svg" alt="i18nZeal banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://search.maven.org/artifact/io.github.xczcdjx/i18n-runtime">
+    <img src="https://img.shields.io/maven-central/v/io.github.xczcdjx/i18n-runtime?label=Maven%20Central&color=0F766E" alt="Maven Central" />
+  </a>
+  <a href="https://kotlinlang.org/">
+    <img src="https://img.shields.io/badge/Kotlin-2.2.0-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin 2.2.0" />
+  </a>
+  <a href="https://www.jetbrains.com/lp/compose-multiplatform/">
+    <img src="https://img.shields.io/badge/Compose-Multiplatform-2563EB" alt="Compose Multiplatform" />
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-F59E0B" alt="Apache 2.0" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://kotlinlang.org/docs/multiplatform.html">
+    <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20JVM%20%7C%20JS%20%7C%20Wasm-111827" alt="Platforms" />
+  </a>
+</p>
+
 English README. Chinese documentation is available at [docs/README.zh-CN.md](docs/README.zh-CN.md).
 
-`i18nZeal` is a Kotlin Multiplatform i18n helper for Compose Multiplatform apps.
+`i18nZeal` brings type-safe internationalization to Kotlin Multiplatform apps with first-class Compose Multiplatform support.
+
+Generate typed translation keys and a locale-aware translation engine from JSON, YAML, Properties, or Kotlin locale files. Then use the lightweight runtime to resolve translations and switch languages consistently across Android, iOS, JVM, JS, and Wasm.
+
+## Highlights
+
+- Generate typed translation keys and `I18nEngine` implementations at build time
+- Use Compose-friendly translation helpers with `CompositionLocal` and runtime locale state
+- Keep locale data in `json`, `yaml`, `properties`, or `kt` files
+- Share one i18n workflow across Android, iOS, desktop, web, and Wasm targets
 
 It has two main parts:
 
@@ -85,7 +119,7 @@ If you use the published plugin:
 
 ```kotlin
 plugins {
-    id("io.github.xczcdjx.i18nzeal") version "0.1.0"
+    id("io.github.xczcdjx.i18nzeal") version "$i18nZealVersion"
 }
 ```
 
@@ -93,7 +127,7 @@ Add the runtime dependency:
 
 ```kotlin
 commonMain.dependencies {
-    implementation("io.github.xczcdjx:i18n-runtime:0.1.0")
+    implementation("io.github.xczcdjx:i18n-runtime:$i18nZealVersion")
 }
 ```
 
