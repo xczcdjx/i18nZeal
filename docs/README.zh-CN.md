@@ -184,6 +184,22 @@ object I18nZeal : I18nEngine {
 tr(I18nKeys.count, count)
 ```
 
+也支持命名占位符：
+
+```json
+{
+  "welcome": "你好，{name}！你有 {count} 条消息。"
+}
+```
+
+命名参数可以使用键值对或 `Map` 传入：
+
+```kotlin
+tr(I18nKeys.welcome, "name" to userName, "count" to count)
+tr(I18nKeys.welcome, mapOf("name" to userName, "count" to count))
+tr(I18nKeys.welcome, userName, count) // 按占位符在文本中的顺序填充
+```
+
 ## Runtime 用法
 
 初始化 runtime：

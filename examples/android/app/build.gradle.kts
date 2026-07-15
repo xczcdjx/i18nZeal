@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("io.github.xczcdjx.i18nzeal") version "0.2.0"
+    id("io.github.xczcdjx.i18nzeal") version "0.2.1"
 }
 
 android {
@@ -65,7 +65,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
-    implementation("io.github.xczcdjx:i18n-runtime:0.2.0")
+    implementation("io.github.xczcdjx:i18n-runtime:0.2.1")
 }
 
 i18nZeal {

@@ -8,5 +8,7 @@
     "zh": "Chinese"
   },
   "count": "Count,{0}",
-  "poem": "Mastery comes from diligence, ruin comes from idleness; achievements come from reflection, failure comes from blindly following."
+  "poem": "Mastery comes from diligence, ruin comes from idleness; achievements come from reflection, failure comes from blindly following.",
+  "hello": "Hello, {name}! You have {count} messages.",
+  "name": "ZhangSan"
 }

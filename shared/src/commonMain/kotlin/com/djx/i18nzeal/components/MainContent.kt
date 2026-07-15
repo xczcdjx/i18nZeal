@@ -32,13 +32,15 @@ fun MainContent(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             TopAppBar(title = {
-//                Text(tr("app.name"))
                 Text("app.name".tri18n())
             })
         }
     ) { paddingValues ->
         Column(modifier.padding(paddingValues)) {
-            Text("1111")
+            Text(tr(I18nKeys.hello, "count" to count, "name" to "ZhangSan"))
+            Text(I18nKeys.hello.tri18n(mapOf("count" to count, "name" to "ZhangSan")))
+            Text(trn(I18nKeys.hello, "ZhangSan", count))
+            Text(I18nKeys.hello.trnI18n())
             Text(tr(I18nKeys.count, count))
             TextButton({
                 count += 1

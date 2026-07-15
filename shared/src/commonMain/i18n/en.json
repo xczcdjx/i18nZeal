@@ -8,5 +8,7 @@
     "en": "English",
     "zh": "Chinese"
   },
- "count": "Count,{0}"
+  "count": "Count,{0}",
+  "hello": "Hello, {name}! You have {count} messages.",
+  "name": "ZhangSan"
 }

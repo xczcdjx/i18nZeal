@@ -183,6 +183,22 @@ Usage:
 tr(I18nKeys.count, count)
 ```
 
+Named placeholders are also supported:
+
+```json
+{
+  "welcome": "Hello, {name}! You have {count} messages."
+}
+```
+
+Pass named values as pairs or as a map:
+
+```kotlin
+tr(I18nKeys.welcome, "name" to userName, "count" to count)
+tr(I18nKeys.welcome, mapOf("name" to userName, "count" to count))
+tr(I18nKeys.welcome, userName, count) // Fills named placeholders in source order
+```
+
 ## Runtime Usage
 
 Initialize the runtime:

@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("io.github.xczcdjx.i18nzeal") version "0.2.0"
+    id("io.github.xczcdjx.i18nzeal") version "0.2.1"
 }
 
 kotlin {
@@ -65,7 +65,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation("io.github.xczcdjx:i18n-runtime:0.2.0")
+            implementation("io.github.xczcdjx:i18n-runtime:0.2.1")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

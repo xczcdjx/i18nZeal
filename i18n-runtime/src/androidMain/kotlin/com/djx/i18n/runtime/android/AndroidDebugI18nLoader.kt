@@ -3,6 +3,7 @@ package com.djx.i18n.runtime.android
 import android.content.Context
 import com.djx.i18n.runtime.export.Locale
 import com.djx.i18n.runtime.interfaces.I18nEngine
+import com.djx.i18n.runtime.formatI18nText
 import org.json.JSONObject
 import java.io.File
 import java.io.StringReader
@@ -90,7 +91,7 @@ private class AndroidDebugI18nEngine(
             ?: return fallbackEngine?.get(key, locale, fallback, *args) ?: fallback
 
         if (args.isEmpty() || !text.contains("{")) return text
-        return format(text, *args)
+        return formatI18nText(text, *args)
     }
 
     private fun loadTranslations(): Map<String, Map<String, String>> {
@@ -144,19 +145,4 @@ private class AndroidDebugI18nEngine(
         }
     }
 
-    private fun format(
-        text: String,
-        vararg args: Any?,
-    ): String {
-        var result = text
-
-        args.forEachIndexed { index, value ->
-            result = result.replace(
-                oldValue = "{$index}",
-                newValue = value?.toString().orEmpty()
-            )
-        }
-
-        return result
-    }
 }

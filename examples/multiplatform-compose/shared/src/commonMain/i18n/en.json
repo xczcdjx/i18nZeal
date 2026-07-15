@@ -8,5 +8,7 @@
     "zh": "Chinese"
   },
   "count": "Count,{0}",
-  "poem": "As Heaven maintains vigor through movement, a gentleman should constantly strive for self-improvement; as Earth’s condition is receptive and nurturing, a gentleman should hold virtue to support all things."
+  "poem": "As Heaven maintains vigor through movement, a gentleman should constantly strive for self-improvement; as Earth’s condition is receptive and nurturing, a gentleman should hold virtue to support all things.",
+  "hello": "Hello, {name}! You have {count} messages.",
+  "name": "ZhangSan"
 }
