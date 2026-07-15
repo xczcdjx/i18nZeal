@@ -128,7 +128,7 @@ mavenPublishing {
 
     pom {
         name.set("i18n-runtime")
-        description.set("Runtime library for i18nZeal Kotlin Multiplatform i18n.")
+        description.set("Lightweight Kotlin Multiplatform i18n runtime for Compose, with locale state, CompositionLocal integration, and translation helpers.")
         inceptionYear.set("2026")
         url.set("https://github.com/xczcdjx/i18nZeal")
 

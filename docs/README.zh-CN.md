@@ -1,6 +1,42 @@
 # i18nZeal 中文文档
 
-`i18nZeal` 是一个面向 Compose Multiplatform 的 Kotlin Multiplatform 国际化工具。
+<p align="center">
+  <img src="assets/i18nzeal-banner.svg" alt="i18nZeal banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://search.maven.org/artifact/io.github.xczcdjx/i18n-runtime">
+    <img src="https://img.shields.io/maven-central/v/io.github.xczcdjx/i18n-runtime?label=Maven%20Central&color=0F766E" alt="Maven Central" />
+  </a>
+  <a href="https://kotlinlang.org/">
+    <img src="https://img.shields.io/badge/Kotlin-2.2.0-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin 2.2.0" />
+  </a>
+  <a href="https://www.jetbrains.com/lp/compose-multiplatform/">
+    <img src="https://img.shields.io/badge/Compose-Multiplatform-2563EB" alt="Compose Multiplatform" />
+  </a>
+  <a href="../LICENSE">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-F59E0B" alt="Apache 2.0" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://kotlinlang.org/docs/multiplatform.html">
+    <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20JVM%20%7C%20JS%20%7C%20Wasm-111827" alt="Platforms" />
+  </a>
+</p>
+
+English README 请见 [README.md](../README.md)。
+
+`i18nZeal` 为 Kotlin Multiplatform 应用提供类型安全的国际化能力，并对 Compose Multiplatform 提供一等支持。
+
+从 JSON、YAML、Properties 或 Kotlin 多语言文件生成类型化翻译 key 和具备 locale 感知能力的翻译引擎，再通过轻量 runtime 在 Android、iOS、JVM、JS 和 Wasm 上统一完成文本解析与语言切换。
+
+## 亮点
+
+- 在构建期生成类型安全的翻译 key 和 `I18nEngine` 实现
+- 提供适配 Compose 的翻译 API，支持 `CompositionLocal` 和运行时语言状态
+- 支持 `json`、`yaml`、`properties`、`kt` 等多语言文件格式
+- 一套 i18n 工作流覆盖 Android、iOS、桌面、Web 和 Wasm 目标
 
 它主要由两部分组成：
 
@@ -84,7 +120,7 @@ i18nZeal {
 
 ```kotlin
 plugins {
-    id("io.github.xczcdjx.i18nzeal") version "0.1.0"
+    id("io.github.xczcdjx.i18nzeal") version "$i18nZealVersion"
 }
 ```
 
@@ -92,7 +128,7 @@ plugins {
 
 ```kotlin
 commonMain.dependencies {
-    implementation("io.github.xczcdjx:i18n-runtime:0.1.0")
+    implementation("io.github.xczcdjx:i18n-runtime:$i18nZealVersion")
 }
 ```
 
